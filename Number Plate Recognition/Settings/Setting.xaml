@@ -1,0 +1,44 @@
+﻿<Window x:Class="Number_Plate_Recognition.Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Number_Plate_Recognition"
+        mc:Ignorable="d"
+        Title="Настройки" Height="450" Width="815" MinWidth="811.081" MaxWidth="815" MinHeight="450" MaxHeight="450">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167*"/>
+            <ColumnDefinition Width="626*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="DefaulSetting" Content="Общие настройки" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="25" Grid.Column="0" Click="DefaulSetting_Click" Margin="10,10,0,0" />
+        <Button Name ="DificultSetting" Content="Расширенные настройки" HorizontalAlignment="Left" VerticalAlignment="Center" Width="147" Height="29" Grid.Column="0" Click="DificultSetting_Click" Margin="10,49,0,342"/>
+        <Button x:Name="SaveButton" Content="Сохранить настройки" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="19,304,0,84" Width="128" Grid.Column="0" Click="SaveButton_Click"/>
+        <Button x:Name="LogButton" Content="Подготовить отчёт" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Click="LogButton_Click" Margin="19,270,0,121" Width="128"/>
+        <Button x:Name="AboutProgramButton" Content="О програме" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="19,373,0,15" Width="128" Grid.Column="0" Click="AboutProgramButton_Click"/>
+        <Button x:Name="ExitButton" Content="Выйти" Grid.Column="0" Margin="19,341,22.6,52" Click="ExitButton_Click"/>
+        <GroupBox x:Name="DefaultSettings" Header="Метод нахождения рамки" Grid.Column="1" Visibility="Visible">
+            <StackPanel x:Name="stackPanel" Grid.Column="1" MinWidth="623.2" MaxWidth="623.2" MinHeight="396.8" MaxHeight="396.8">
+                <RadioButton x:Name="HaarRadioButton" GroupName="Method" Content="Нахождение рамки с помощью каскада Хаара" Tag="Haar"/>
+                <Label>Использует метод Виолы-Джонсона. Не является самым точным. Не рекомендуется к применению.</Label>
+                <RadioButton x:Name="YoloRadioButton" GroupName="Method" Content="Нахождение рамки с помощью нейронной сети" IsChecked="True" Tag="Yolo"/>
+                <Label>Использует нейронную сеть на архитектуре YOLOv3. Наиболее точный и быстрый метод нахождения рамки.</Label>
+                <StackPanel.Resources>
+                    <Style TargetType="RadioButton">
+                        <EventSetter Event="Checked" Handler="RadioButton_Click"></EventSetter>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="HardSettings" Header="Метод Хаара" Grid.Column="1" Visibility="Hidden">
+            <Grid>
+                <TextBox x:Name="ScaleFactorTextBox" Margin="125,10,389.4,355.8"></TextBox>
+                <Label Content="Scale factor" Margin="10,10,522.4,355.8"></Label>
+                <TextBox x:Name="MinNeighbordsTextBox" Margin="125,51,389.4,314.8"></TextBox>
+                <Label Content="Min Neigbords" Margin="10,51,497.4,312.8"></Label>
+                <TextBox x:Name="MinSizeTextBox" Margin="125,95,389.4,270.8"></TextBox>
+                <Label Content="Min Size" Margin="10,95,537.4,270.8"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

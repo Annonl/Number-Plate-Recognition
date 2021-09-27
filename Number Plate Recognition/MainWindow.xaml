@@ -1,0 +1,91 @@
+﻿<Window x:Class="Number_Plate_Recognition.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Number_Plate_Recognition"
+        mc:Ignorable="d" Height="624.723" Width="1060.8" Title="Распознавание автомобильных номеров" Closed="Window_Closed">
+    <DockPanel Name = "MainPanel" LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Name="OpenFile" Header="Открыть изображение"  FontSize="14" Click="OpenImage_Click" />
+            <MenuItem Name="OpenDirectory" Header="Открыть папку" FontSize="14" Click="OpenDirectory_Click"/>
+            <MenuItem Name="FindPlates" Header="Найти рамки" FontSize ="14" Click="FindPlates_Click"/>
+            <MenuItem Name="Setting" Header="Настройки" FontSize="14" Click="Setting_Click"/>
+        </Menu>
+        <UniformGrid Columns="2" Rows="2">
+            <GroupBox Header="Изображение">
+                <Image Name="MainImage" DockPanel.Dock="Top"></Image>
+            </GroupBox>
+            <UniformGrid Columns="2">
+                <GroupBox Header="Необработанное изображение">
+                    <ListView Name="ImagesPlateListBox" ItemsSource="{Binding ImagesCollection}" SelectedIndex="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding}" Width="200"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </GroupBox>
+                <GroupBox Header="Изображение после устранения искажений">
+                    <ListView Name="AffinePlateListBox"  ItemsSource="{Binding ImagesCollection}" SelectedIndex="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding}" Width="200"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </GroupBox>
+            </UniformGrid>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <DataGrid x:Name="dataImagesCarsGrid" IsReadOnly="True" CanUserAddRows="False" HorizontalGridLinesBrush="DarkGray" AutoGenerateColumns="False"
+RowBackground="LightGray" AlternatingRowBackground="White"  DockPanel.Dock ="Bottom" ColumnWidth="150"  VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding Number}"  Width="50"/>
+                        <DataGridTemplateColumn Header="Изображение" Width="90" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding MainImageCar}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Date}" />
+                        <DataGridTextColumn Header="Время работы (мс)" Binding="{Binding Time}" />
+                        <DataGridTextColumn Header="Количество номеров" Binding="{Binding CountPlates}"/>
+                        <DataGridTextColumn Header="Способ распознавания" Binding="{Binding detectWay}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="Control.MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+                </DataGrid>
+            </ScrollViewer>
+            <GroupBox Header="Отчёт">
+                <StackPanel x:Name="LogStackPanel" Visibility="Hidden">
+                    <Label>Количество правильно опознанных номеров</Label>
+                    <TextBox x:Name="CountRightLPTextBox" Margin="0,0,253.8,0"></TextBox>
+                    <Label>Количество неправильно опознанных номеров</Label>
+                    <TextBox x:Name="CountWrongLPTextBox" Margin="0,0,253.8,0"></TextBox>
+                    <Label>Количество неопознанных номеров</Label>
+                    <TextBox x:Name="CountUnknownLPTextBox" Margin="0,0,253.8,0"></TextBox>
+                    <Label>Количество рамок, для которых правильно было устранено искажение</Label>
+                    <TextBox x:Name="CountCorrectAffine" Margin="0,0,253.8,0"></TextBox>
+                    <Label></Label>
+                    <Button x:Name="SaveLogButton" Content="Сохранить" FontSize="14" Click="SaveLogButton_Click" Margin="0,0,253.8,0"></Button>
+                </StackPanel>
+            </GroupBox>
+        </UniformGrid>
+    </DockPanel>
+</Window>
